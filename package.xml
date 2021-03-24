@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>jimmbot_navigation</name>
+  <version>0.1.0</version>
+  <description>mhRobotics jimmBOT navigation bringup</description>
+
+  <author email="m.halimi@gmail.com">Mergim Halimi</author>
+
+  <maintainer email="m.halimi@gmail.com">Mergim Halimi</maintainer>
+
+  <url type="website">www.mergimhalimi.com</url>
+  <url type="repository">https://github.com/mh-Robotics/jimmbot_navigation</url>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>amcl</exec_depend>
+  <exec_depend>gmapping</exec_depend>
+  <exec_depend>dwa_local_planner</exec_depend>
+
+  <export />
+
+</package>
