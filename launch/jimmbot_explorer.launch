@@ -2,7 +2,7 @@
 <!-- 
 MIT License
 
-@file      jimmbot_gmapping.launch
+@file      jimmbot_explorer.launch
 @author    Mergim Halimi (m.halimi123@gmail.com)
 @copyright Copyright (c) 2021, mhRobotics, Inc., All rights reserved.
 
@@ -25,15 +25,5 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  --> 
 <launch>
-
-  <arg name="scan_topic" default="laserscan" />
-
-  <node pkg="gmapping" type="slam_gmapping" name="jimmbot_slam_gmapping">
-    <rosparam file="$(find jimmbot_navigation)/config/gmapping_params.yaml" command="load" />
-    <remap from="scan" to="$(arg scan_topic)" />
-  </node>
-
-  <arg default="$(find jimmbot_viz)/rviz/jimmbot_gmapping.rviz" name="rvizconfig" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
-
+  
 </launch>

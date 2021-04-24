@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!-- 
+MIT License
+
+@file      rtabmap.launch
+@author    Mergim Halimi (m.halimi123@gmail.com)
+@copyright Copyright (c) 2021, mhRobotics, Inc., All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ --> 
+<launch>
+
+  <group ns="rtabmap">
+    <node pkg="nodelet" type="nodelet" name="rgbd_sync" args="standalone rtabmap_ros/rgbd_sync" output="screen">
+      <remap from="rgb/image"       to="/kinect_back/rgb/image_color"/>
+      <remap from="depth/image"     to="/kinect_back/depth/image_raw"/>
+      <remap from="rgb/camera_info" to="/kinect_back/rgb/camera_info"/>
+      <remap from="rgbd_image"      to="rgbd_image"/>
+      <param name="approx_sync"     value="true"/> 
+    </node>
+
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
+          <param name="frame_id" type="string" value="chassis"/>
+
+          <param name="subscribe_depth" type="bool" value="false"/>
+          <param name="subscribe_rgb"   type="bool" value="false"/>
+          <param name="subscribe_rgbd"  type="bool" value="true"/>
+          <param name="subscribe_scan"  type="bool" value="true"/>
+
+          <remap from="odom"       to="/odometry/filtered"/>
+          <remap from="scan"       to="/laserscan"/>
+          <remap from="rgbd_image" to="rgbd_image"/>
+
+          <param name="queue_size"                    type="int"    value="10"/>
+          <param name="RGBD/NeighborLinkRefining"     type="string" value="true"/>
+          <param name="RGBD/ProximityBySpace"         type="string" value="true"/>
+          <param name="RGBD/AngularUpdate"            type="string" value="0.01"/>
+          <param name="RGBD/LinearUpdate"             type="string" value="0.01"/>
+          <param name="RGBD/OptimizeFromGraphEnd"     type="string" value="false"/>
+          <param name="Grid/FromDepth"                type="string" value="false"/>
+          <param name="Reg/Force3DoF"                 type="string" value="true"/>
+          <param name="Reg/Strategy"                  type="string" value="1"/>
+          <param name="Icp/VoxelSize"                 type="string" value="0.05"/>
+          <param name="Icp/MaxCorrespondenceDistance" type="string" value="0.1"/>
+    </node>
+  </group>
+
+</launch>
